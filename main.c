@@ -1,13 +1,18 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-// TODO: make image of random pixels
 // TODO: take user input for number of frames, frames per second, width, height
 // TODO: call ffmpeg to create video e.g. "ffmpeg -i output-%02d.ppm -r 60 output.mp4"
 // TODO: clean up all .ppm files
 // TODO: make README.md
 
+#define MAX 255
+
 int main(void)
 {
+	srand(time(NULL));
+
 	char buffer[256];
 	for (int i = 0; i < 60; i++)
 	{
@@ -20,15 +25,19 @@ int main(void)
 
 		fprintf(file, "P6\n");
 		fprintf(file, "%d %d\n", width, height);
-		fprintf(file, "255\n");
+		fprintf(file, "%d\n", MAX);
 
 		for (int h = 0; h < height; h++)
 		{
 			for (int w = 0; w < width; w++)
 			{
-				fputc(255, file);
-				fputc(0, file);
-				fputc(0, file);
+				int red = rand() % MAX;
+				int green = rand() % MAX;
+				int blue = rand() % MAX;
+
+				fputc(red, file);
+				fputc(green, file);
+				fputc(blue, file);
 			}
 		}
 
