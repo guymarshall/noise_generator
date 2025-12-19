@@ -5,8 +5,8 @@ mkdir -p target
 
 mv main target/main
 
-frame_count=60
+frame_count=600
 frames_per_second=60
-width=$((16 * 60)) #960
-height=$((9 * 60)) #540
+width=1280
+height=720
 ./target/main "$frame_count" "$frames_per_second" "$width" "$height"
