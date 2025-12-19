@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	}
 
 	int frame_count = atoi(argv[1]);
-	// int frames_per_second = atoi(argv[2]);
+	int frames_per_second = atoi(argv[2]);
 	int width = atoi(argv[3]);
 	int height = atoi(argv[4]);
 
@@ -57,13 +57,22 @@ int main(int argc, char **argv)
 		printf("Generated %s\n", output_path);
 	}
 
+	char ffmpeg_cmd[256];
 #ifdef _WIN32
-#define FFMPEG_CMD "ffmpeg.exe -y -framerate 60 -i output-%d.ppm output.mp4"
+	snprintf(
+		ffmpeg_cmd,
+		sizeof(ffmpeg_cmd),
+		"ffmpeg.exe -y -framerate %d -i output-%%d.ppm output.mp4",
+		frames_per_second);
 #else
-#define FFMPEG_CMD "ffmpeg -y -framerate 60 -i output-%d.ppm output.mp4"
+	snprintf(
+		ffmpeg_cmd,
+		sizeof(ffmpeg_cmd),
+		"ffmpeg -y -framerate %d -i output-%%d.ppm output.mp4",
+		frames_per_second);
 #endif
 
-	int ret = system(FFMPEG_CMD);
+	int ret = system(ffmpeg_cmd);
 	if (ret != 0)
 	{
 		perror("system");
