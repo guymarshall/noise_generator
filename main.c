@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// TODO: call ffmpeg to create video e.g. "ffmpeg -i output-%02d.ppm -r 60 output.mp4"
 // TODO: clean up all .ppm files
 // TODO: make README.md
 
@@ -57,6 +56,19 @@ int main(int argc, char **argv)
 
 		fclose(file);
 		printf("Generated %s\n", output_path);
+	}
+
+#ifdef _WIN32
+#define FFMPEG_CMD "ffmpeg.exe -y -framerate 60 -i output-%02d.ppm output.mp4"
+#else
+#define FFMPEG_CMD "ffmpeg -y -framerate 60 -i output-%02d.ppm output.mp4"
+#endif
+
+	int ret = system(FFMPEG_CMD);
+	if (ret != 0)
+	{
+		perror("system");
+		return 1;
 	}
 
 	return 0;
