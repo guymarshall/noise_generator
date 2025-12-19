@@ -26,9 +26,9 @@ int main(void)
 		{
 			for (int w = 0; w < width; w++)
 			{
-				fputc(0xFF, file);
-				fputc(0x00, file);
-				fputc(0x00, file);
+				fputc(255, file);
+				fputc(0, file);
+				fputc(0, file);
 			}
 		}
 
