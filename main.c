@@ -31,6 +31,11 @@ int main(int argc, char **argv)
 		snprintf(buffer, sizeof(buffer), "output-%02d.ppm", i);
 		const char *output_path = buffer;
 		FILE *file = fopen(output_path, "wb");
+		if (!file)
+		{
+			perror("fopen");
+			return 1;
+		}
 
 		fprintf(file, "P6\n");
 		fprintf(file, "%d %d\n", width, height);
