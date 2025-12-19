@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// TODO: clean up all .ppm files
 // TODO: make README.md
 
 #define MAX 255
@@ -27,7 +26,7 @@ int main(int argc, char **argv)
 	char buffer[256];
 	for (int i = 0; i < frame_count; i++)
 	{
-		snprintf(buffer, sizeof(buffer), "output-%02d.ppm", i);
+		snprintf(buffer, sizeof(buffer), "output-%d.ppm", i);
 		const char *output_path = buffer;
 		FILE *file = fopen(output_path, "wb");
 		if (!file)
@@ -59,9 +58,9 @@ int main(int argc, char **argv)
 	}
 
 #ifdef _WIN32
-#define FFMPEG_CMD "ffmpeg.exe -y -framerate 60 -i output-%02d.ppm output.mp4"
+#define FFMPEG_CMD "ffmpeg.exe -y -framerate 60 -i output-%d.ppm output.mp4"
 #else
-#define FFMPEG_CMD "ffmpeg -y -framerate 60 -i output-%02d.ppm output.mp4"
+#define FFMPEG_CMD "ffmpeg -y -framerate 60 -i output-%d.ppm output.mp4"
 #endif
 
 	int ret = system(FFMPEG_CMD);
@@ -69,6 +68,13 @@ int main(int argc, char **argv)
 	{
 		perror("system");
 		return 1;
+	}
+
+	for (int i = 0; i < frame_count; i++)
+	{
+		sprintf(buffer, "output-%d.ppm", i);
+
+		remove(buffer);
 	}
 
 	return 0;
