@@ -54,7 +54,10 @@ int main(int argc, char **argv)
 		}
 
 		fclose(file);
-		printf("Generated %s\n", output_path);
+
+		float percentage_progress = 100.0 * (i + 1) / frame_count;
+		printf("\r%f%%", percentage_progress);
+		fflush(stdout);
 	}
 
 	char ffmpeg_cmd[256];
@@ -85,6 +88,8 @@ int main(int argc, char **argv)
 
 		remove(buffer);
 	}
+
+	printf("\n");
 
 	return 0;
 }
